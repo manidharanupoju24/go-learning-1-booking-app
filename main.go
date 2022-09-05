@@ -24,7 +24,7 @@ func main() {
 	//bookings[0] = "Manidhar"
 	//bookings[1] = "Nicole"
 
-	for {
+	for remainingTickets > 0 && len(bookings) < 50 {
 		var firstName string
 		var lastName string
 		var email string
@@ -43,43 +43,66 @@ func main() {
 		fmt.Println("Please enter number of tickets you want: ")
 		fmt.Scan(&userTickets)
 
-		remainingTickets -= userTickets
-		//bookings[49] = firstName + " " + lastName
-		bookings = append(bookings, firstName+" "+lastName)
-
 		/*
-			//fmt.Printf("The whole array : %v\n", bookings)
-			fmt.Printf("The whole slice : %v\n", bookings)
-			fmt.Printf("The first value : %v\n", bookings[0])
-			fmt.Printf("Array type : %T\n", bookings)
-			fmt.Printf("Size of the array : %v\n", len(bookings))
+			if userTickets > remainingTickets {
+				fmt.Printf("We only have %v tickets remaining, you can't book %v tickets.\n", remainingTickets, userTickets)
+				continue
+				// continue causes loop to skip the remainder of the body of the loop
+				// immediately restest the condition (in our infinite loop, condition is always true)
+			}
 		*/
+		if userTickets < remainingTickets {
+			remainingTickets -= userTickets
+			//bookings[49] = firstName + " " + lastName
+			bookings = append(bookings, firstName+" "+lastName)
 
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will shortly get a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			/*
+				//fmt.Printf("The whole array : %v\n", bookings)
+				fmt.Printf("The whole slice : %v\n", bookings)
+				fmt.Printf("The first value : %v\n", bookings[0])
+				fmt.Printf("Array type : %T\n", bookings)
+				fmt.Printf("Size of the array : %v\n", len(bookings))
+			*/
 
-		firstNames := []string{}
-		//for each loop
-		/*
-			//here index should be given but we are not using it => give blank identifier _
-			for index, booking := range bookings {
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will shortly get a confirmation email at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+			firstNames := []string{}
+			//for each loop
+			/*
+				//here index should be given but we are not using it => give blank identifier _
+				for index, booking := range bookings {
+					var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
+					firstNames = append(firstNames, names[0])
+				}
+			*/
+
+			// blank identifier -> to ignore a varible you don't want to use
+			// with go, you need to make unused variables explicit
+			for _, booking := range bookings {
 				var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
 				firstNames = append(firstNames, names[0])
 			}
-		*/
+			//range iterates over elements for different data structures (not only for arrays and slices)
+			// for arrays and slices, range provides the index and value for each element
+			//fmt.Printf("These are all our bookings: %v\n", bookings)
+			fmt.Printf("The first names for bookings are %v\n", firstNames)
 
-		// blank identifier -> to ignore a varible you don't want to use
-		// with go, you need to make unused variables explicit
-		for _, booking := range bookings {
-			var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
-			firstNames = append(firstNames, names[0])
+			// loops are simplified in go. There are no while loops, do-while loops or for-each loops
+			// there is only one loop called for loop
+
+			noTicketsRemaining := remainingTickets == 0
+			if noTicketsRemaining {
+				fmt.Printf("Our Go Conference is booked out! Come back next year")
+				break
+			}
+		} else if userTickets == remainingTickets {
+			fmt.Printf("You have booked all the remaining %v tickets available\n", remainingTickets)
+			fmt.Println("After this transaction, no tickets will be available")
+			break
+		} else {
+			fmt.Printf("We only have %v tickets remaining, you can't book %v tickets.\n", remainingTickets, userTickets)
+			continue
 		}
-		//range iterates over elements for different data structures (not only for arrays and slices)
-		// for arrays and slices, range provides the index and value for each element
-		//fmt.Printf("These are all our bookings: %v\n", bookings)
-		fmt.Printf("The first names for bookings are %v\n", firstNames)
-
-		// loops are simplified in go. There are no while loops, do-while loops or for-each loops
-		// there is only one loop called for loop
 	}
 }
