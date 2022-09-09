@@ -43,6 +43,10 @@ func main() {
 		fmt.Println("Please enter number of tickets you want: ")
 		fmt.Scan(&userTickets)
 
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := userTickets > 0 && userTickets > remainingTickets
+
 		/*
 			if userTickets > remainingTickets {
 				fmt.Printf("We only have %v tickets remaining, you can't book %v tickets.\n", remainingTickets, userTickets)
@@ -51,7 +55,7 @@ func main() {
 				// immediately restest the condition (in our infinite loop, condition is always true)
 			}
 		*/
-		if userTickets < remainingTickets {
+		if isValidName && isValidEmail && isValidTicketNumber {
 			remainingTickets -= userTickets
 			//bookings[49] = firstName + " " + lastName
 			bookings = append(bookings, firstName+" "+lastName)
@@ -96,13 +100,26 @@ func main() {
 				fmt.Printf("Our Go Conference is booked out! Come back next year")
 				break
 			}
-		} else if userTickets == remainingTickets {
+		} else {
+			fmt.Println("Your input data is invalid. Please check below and try again :")
+			if !isValidName {
+				fmt.Println("Please check your first name and last name")
+			}
+			if !isValidEmail {
+				fmt.Println("Email address you entered is not valid")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("Number of tickets you entered is invalid")
+			}
+
+		}
+		/*else if userTickets == remainingTickets {
 			fmt.Printf("You have booked all the remaining %v tickets available\n", remainingTickets)
 			fmt.Println("After this transaction, no tickets will be available")
 			break
 		} else {
 			fmt.Printf("We only have %v tickets remaining, you can't book %v tickets.\n", remainingTickets, userTickets)
 			continue
-		}
+		}*/
 	}
 }
