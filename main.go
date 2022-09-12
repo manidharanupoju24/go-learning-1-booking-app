@@ -13,14 +13,9 @@ func main() {
 	var bookings []string //string type slice , use append method to add data to slices
 	//var bookings[50]string  //string type array
 
-	fmt.Printf("conferenceTickets is %T, remainingTickets is %T, conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
-	fmt.Println("Hello world!")
-	fmt.Printf("Welcome to %v, booking application\n", conferenceName) // placeholder
-	fmt.Println("We have a total of", conferenceTickets, "tickets")
-	fmt.Println("Get your tickets here to attend")
-	fmt.Printf("There are %v conference tickets available\n", remainingTickets)
-	//fmt.Println(conferenceName)
+	greetUsers(conferenceName, conferenceTickets, remainingTickets)
 
+	//fmt.Println(conferenceName)
 	//bookings[0] = "Manidhar"
 	//bookings[1] = "Nicole"
 
@@ -45,7 +40,7 @@ func main() {
 
 		isValidName := len(firstName) >= 2 && len(lastName) >= 2
 		isValidEmail := strings.Contains(email, "@")
-		isValidTicketNumber := userTickets > 0 && userTickets > remainingTickets
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
 		/*
 			if userTickets > remainingTickets {
@@ -143,4 +138,13 @@ func main() {
 			fmt.Println("No valid city selected")
 		}
 	*/
+}
+
+func greetUsers(conferenceName string, conferenceTickets int, remainingTickets uint) {
+	fmt.Printf("conferenceTickets is %T, remainingTickets is %T, conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
+	fmt.Println("Hello world!")
+	fmt.Printf("Welcome to %v, booking application\n", conferenceName) // placeholder
+	fmt.Println("We have a total of", conferenceTickets, "tickets")
+	fmt.Println("Get your tickets here to attend")
+	fmt.Printf("There are %v conference tickets available\n", remainingTickets)
 }
