@@ -66,7 +66,8 @@ func main() {
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will shortly get a confirmation email at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-			printFirstNames(bookings)
+			firstNames := getFirstNames(bookings)
+			fmt.Printf("The first names for bookings are %v\n", firstNames)
 
 			// loops are simplified in go. There are no while loops, do-while loops or for-each loops
 			// there is only one loop called for loop
@@ -130,7 +131,7 @@ func greetUsers(conferenceName string, conferenceTickets int, remainingTickets u
 	fmt.Printf("There are %v conference tickets available\n", remainingTickets)
 }
 
-func printFirstNames(bookings []string) {
+func getFirstNames(bookings []string) []string {
 	firstNames := []string{}
 	//for each loop
 	/*
@@ -140,7 +141,6 @@ func printFirstNames(bookings []string) {
 			firstNames = append(firstNames, names[0])
 		}
 	*/
-
 	// blank identifier -> to ignore a varible you don't want to use
 	// with go, you need to make unused variables explicit
 	for _, booking := range bookings {
@@ -150,5 +150,5 @@ func printFirstNames(bookings []string) {
 	//range iterates over elements for different data structures (not only for arrays and slices)
 	// for arrays and slices, range provides the index and value for each element
 	//fmt.Printf("These are all our bookings: %v\n", bookings)
-	fmt.Printf("The first names for bookings are %v\n", firstNames)
+	return firstNames
 }
