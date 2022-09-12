@@ -66,26 +66,7 @@ func main() {
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will shortly get a confirmation email at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-			firstNames := []string{}
-			//for each loop
-			/*
-				//here index should be given but we are not using it => give blank identifier _
-				for index, booking := range bookings {
-					var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
-					firstNames = append(firstNames, names[0])
-				}
-			*/
-
-			// blank identifier -> to ignore a varible you don't want to use
-			// with go, you need to make unused variables explicit
-			for _, booking := range bookings {
-				var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
-				firstNames = append(firstNames, names[0])
-			}
-			//range iterates over elements for different data structures (not only for arrays and slices)
-			// for arrays and slices, range provides the index and value for each element
-			//fmt.Printf("These are all our bookings: %v\n", bookings)
-			fmt.Printf("The first names for bookings are %v\n", firstNames)
+			printFirstNames(bookings)
 
 			// loops are simplified in go. There are no while loops, do-while loops or for-each loops
 			// there is only one loop called for loop
@@ -147,4 +128,27 @@ func greetUsers(conferenceName string, conferenceTickets int, remainingTickets u
 	fmt.Println("We have a total of", conferenceTickets, "tickets")
 	fmt.Println("Get your tickets here to attend")
 	fmt.Printf("There are %v conference tickets available\n", remainingTickets)
+}
+
+func printFirstNames(bookings []string) {
+	firstNames := []string{}
+	//for each loop
+	/*
+		//here index should be given but we are not using it => give blank identifier _
+		for index, booking := range bookings {
+			var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
+			firstNames = append(firstNames, names[0])
+		}
+	*/
+
+	// blank identifier -> to ignore a varible you don't want to use
+	// with go, you need to make unused variables explicit
+	for _, booking := range bookings {
+		var names = strings.Fields(booking) // splits the string with white space as separator and returns a slice with split elements
+		firstNames = append(firstNames, names[0])
+	}
+	//range iterates over elements for different data structures (not only for arrays and slices)
+	// for arrays and slices, range provides the index and value for each element
+	//fmt.Printf("These are all our bookings: %v\n", bookings)
+	fmt.Printf("The first names for bookings are %v\n", firstNames)
 }
