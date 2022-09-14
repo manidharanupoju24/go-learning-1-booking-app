@@ -5,41 +5,30 @@ import (
 	"strings"
 )
 
-func main() {
-	var conferenceName string = "Go Conference"
-	const conferenceTickets = 50
-	//remainingTickets := 50 // short hand notation doesn't work with const
-	var remainingTickets uint = 50
-	var bookings []string //string type slice , use append method to add data to slices
-	//var bookings[50]string  //string type array
+// package level variables
+//defined outside all the functions
 
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+var conferenceName string = "Go Conference"
+
+const conferenceTickets = 50
+
+//remainingTickets := 50 // short hand notation doesn't work with const
+var remainingTickets uint = 50
+var bookings []string //string type slice , use append method to add data to slices
+//var bookings[50]string  //string type array
+
+func main() {
+	greetUsers()
 
 	//fmt.Println(conferenceName)
 	//bookings[0] = "Manidhar"
 	//bookings[1] = "Nicole"
 
 	for remainingTickets > 0 && len(bookings) < 50 {
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets uint
-		//ask user for their name
-		fmt.Println("Enter your first name: ")
-		fmt.Scan(&firstName) //pointers in go lang are called as special variables
 
-		// pointers point to address of the variable in memory
-		fmt.Println("Enter your last name: ")
-		fmt.Scan(&lastName)
-
-		fmt.Println("Enter your email: ")
-		fmt.Scan(&email)
-
-		fmt.Println("Please enter number of tickets you want: ")
-		fmt.Scan(&userTickets)
+		firstName, lastName, email, userTickets := getUserInput()
 
 		isValidName, isValidEmail, isValidTicketNumber := userInputValidation(firstName, lastName, email, userTickets, remainingTickets)
-
 		/*
 			if userTickets > remainingTickets {
 				fmt.Printf("We only have %v tickets remaining, you can't book %v tickets.\n", remainingTickets, userTickets)
@@ -49,22 +38,9 @@ func main() {
 			}
 		*/
 		if isValidName && isValidEmail && isValidTicketNumber {
-			remainingTickets -= userTickets
-			//bookings[49] = firstName + " " + lastName
-			bookings = append(bookings, firstName+" "+lastName)
 
-			/*
-				//fmt.Printf("The whole array : %v\n", bookings)
-				fmt.Printf("The whole slice : %v\n", bookings)
-				fmt.Printf("The first value : %v\n", bookings[0])
-				fmt.Printf("Array type : %T\n", bookings)
-				fmt.Printf("Size of the array : %v\n", len(bookings))
-			*/
-
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will shortly get a confirmation email at %v\n", firstName, lastName, userTickets, email)
-			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
-			firstNames := getFirstNames(bookings)
+			bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, email, conferenceName)
+			firstNames := getFirstNames()
 			fmt.Printf("The first names for bookings are %v\n", firstNames)
 
 			// loops are simplified in go. There are no while loops, do-while loops or for-each loops
@@ -120,7 +96,7 @@ func main() {
 	*/
 }
 
-func greetUsers(conferenceName string, conferenceTickets int, remainingTickets uint) {
+func greetUsers() {
 	fmt.Printf("conferenceTickets is %T, remainingTickets is %T, conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
 	fmt.Println("Hello world!")
 	fmt.Printf("Welcome to %v, booking application\n", conferenceName) // placeholder
@@ -129,7 +105,7 @@ func greetUsers(conferenceName string, conferenceTickets int, remainingTickets u
 	fmt.Printf("There are %v conference tickets available\n", remainingTickets)
 }
 
-func getFirstNames(bookings []string) []string {
+func getFirstNames() []string {
 	firstNames := []string{}
 	//for each loop
 	/*
@@ -157,4 +133,43 @@ func userInputValidation(firstName string, lastName string, email string, userTi
 	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
 	return isValidName, isValidEmail, isValidTicketNumber
+}
+
+func getUserInput() (string, string, string, uint) {
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets uint
+	//ask user for their name
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName) //pointers in go lang are called as special variables
+
+	// pointers point to address of the variable in memory
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter your email: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Please enter number of tickets you want: ")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
+}
+
+func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firstName string, lastName string, email string, conferenceName string) {
+	remainingTickets -= userTickets
+	//bookings[49] = firstName + " " + lastName
+	bookings = append(bookings, firstName+" "+lastName)
+
+	/*
+		//fmt.Printf("The whole array : %v\n", bookings)
+		fmt.Printf("The whole slice : %v\n", bookings)
+		fmt.Printf("The first value : %v\n", bookings[0])
+		fmt.Printf("Array type : %T\n", bookings)
+		fmt.Printf("Size of the array : %v\n", len(bookings))
+	*/
+
+	fmt.Printf("Thank you %v %v for booking %v tickets. You will shortly get a confirmation email at %v\n", firstName, lastName, userTickets, email)
+	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
